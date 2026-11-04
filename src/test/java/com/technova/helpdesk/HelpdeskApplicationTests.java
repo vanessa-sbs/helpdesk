@@ -1,4 +1,4 @@
-package com.trchnova.helpdesk;
+package com.technova.helpdesk;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

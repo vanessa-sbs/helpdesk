@@ -1,4 +1,4 @@
-package com.trchnova.helpdesk;
+package com.technova.helpdesk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
