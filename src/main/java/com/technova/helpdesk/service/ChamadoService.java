@@ -7,6 +7,8 @@ import com.technova.helpdesk.repository.ChamadoRepository;
 import com.technova.helpdesk.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service // Diz ao Spring que essa classe é a "cozinha" (regra de negócio)
 public class ChamadoService {
 
@@ -38,5 +40,14 @@ public class ChamadoService {
 
         // 3. Salva no banco e retorna o chamado salvo (já com ID)
         return chamadoRepository.save(chamado);
+    }
+
+    public List<Chamado> listarMeusChamados() {
+        // 1. O Service vai no banco e busca o usuário (nossa "Vanessa" fixa)
+        Usuario usuario = usuarioRepository.findByUsername("vanessa")
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // 2. Agora que sabemos quem é o usuário, pedimos ao repositório para buscar os chamados dele
+        return chamadoRepository.findByUsuario(usuario);
     }
 }
