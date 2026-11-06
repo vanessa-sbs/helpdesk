@@ -2,6 +2,7 @@ package com.technova.helpdesk.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity // Diz ao banco: "Crie uma tabela para essa classe"
 @Table(name = "usuarios") // Dá um nome à tabela (evita conflito com a palavra "user", que é reservada no SQL)
@@ -17,6 +18,7 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 30) // Obrigatório e Único (não pode ter dois iguais)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
