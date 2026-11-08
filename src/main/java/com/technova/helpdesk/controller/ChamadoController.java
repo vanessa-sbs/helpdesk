@@ -2,6 +2,7 @@ package com.technova.helpdesk.controller;
 
 import com.technova.helpdesk.domain.Chamado;
 import com.technova.helpdesk.dto.ChamadoRequestDTO;
+import com.technova.helpdesk.dto.StatusRequestDTO;
 import com.technova.helpdesk.service.ChamadoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,5 +30,10 @@ public class ChamadoController {
     @GetMapping
     public List<Chamado> listar() {
         return chamadoService.listarMeusChamados();
+    }
+
+    @PatchMapping("/{id}/status")
+    public Chamado atualizarStatus(@PathVariable Long id, @Valid @RequestBody StatusRequestDTO dto) {
+        return chamadoService.atualizarStatus(id, dto);
     }
 }

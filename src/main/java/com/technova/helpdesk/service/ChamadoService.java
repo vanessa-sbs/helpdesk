@@ -1,8 +1,10 @@
 package com.technova.helpdesk.service;
 
 import com.technova.helpdesk.domain.Chamado;
+import com.technova.helpdesk.domain.StatusChamado;
 import com.technova.helpdesk.domain.Usuario;
 import com.technova.helpdesk.dto.ChamadoRequestDTO;
+import com.technova.helpdesk.dto.StatusRequestDTO;
 import com.technova.helpdesk.repository.ChamadoRepository;
 import com.technova.helpdesk.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,24 @@ public class ChamadoService {
 
         // 2. Agora que sabemos quem é o usuário, pedimos ao repositório para buscar os chamados dele
         return chamadoRepository.findByUsuario(usuario);
+    }
+
+    public Chamado atualizarStatus(Long id, StatusRequestDTO dto) {
+        // 1. Busca o chamado (por enquanto, ainda preso à Vanessa)
+        Usuario usuario = usuarioRepository.findByUsername("vanessa")
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        Chamado chamado = chamadoRepository.findByIdAndUsuario(id, usuario)
+                .orElseThrow(() -> new RuntimeException("Chamado " + id + " não encontrado"));
+
+        // 2. Aplica a regra de transição
+        if (chamado.getStatus() == StatusChamado.FECHADO ) {
+            // Se cair aqui, disparamos um erro (que o nosso Fiscal vai transformar em JSON)
+            throw new RuntimeException("Um chamado FECHADO não pode ser alterado.");
+        }
+
+        // 3. Atualiza o status e salva
+        chamado.setStatus(dto.getStatus());
+        return chamadoRepository.save(chamado);
     }
 }
